@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "701039849355",
+    "firebase_url": "https://expenselog-6c283.firebaseio.com",
+    "project_id": "expenselog-6c283",
+    "storage_bucket": "expenselog-6c283.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701039849355:android:3dcd733e41f8f956",
+        "android_client_info": {
+          "package_name": "com.rsandhir.expenselog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "701039849355-lun20bgaej2v7ofq0t6v60mga1ctfq4i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rsandhir.expenselog",
+            "certificate_hash": "2287160c50451efb16b72957cfbf274514a84045"
+          }
+        },
+        {
+          "client_id": "701039849355-o6dk6o4fk8j6jf6erctfu655qhvje61q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQ81zQbLZtaF0o4GXKAZ734CSJ2bTE1z4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "701039849355-o6dk6o4fk8j6jf6erctfu655qhvje61q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
