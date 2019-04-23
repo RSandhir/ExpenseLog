@@ -1,12 +1,14 @@
 package com.rsandhir.expenselog;
+
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -21,31 +23,16 @@ public class SpendingsListView extends AppCompatActivity {
     private ArrayList<String> Amount = new ArrayList<String>();
     ArrayList<Boolean> arrChecked;
     private String[] titlesArray;
-    private Button view_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spendings_list_view);
         lv = findViewById(R.id.lv);
-        view_btn = findViewById(R.id.view_btn);
     }
 
     @Override
     protected void onResume() {
-        view_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String[] arrTempList = new String[arrChecked.size()];
-                for (int i = 0; i < Id.size(); i++) {
-                    if (arrChecked.get(i) == true) {
-                        arrTempList[i] = Id.get(i);
-                    }
-                }
-                databaseHelper.deleteSelected(arrTempList);
-                displayData();
-            }
-        });
         displayData();
         super.onResume();
     }
@@ -78,5 +65,32 @@ public class SpendingsListView extends AppCompatActivity {
         lv.setAdapter(ca);
         Log.d("CheckArr", "" + arrChecked);
         cursor.close();
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete_selected:
+                String[] arrTempList = new String[arrChecked.size()];
+                for (int i = 0; i < Id.size(); i++) {
+                    if (arrChecked.get(i) == true) {
+                        arrTempList[i] = Id.get(i);
+                    }
+                }
+                databaseHelper.deleteSelected(arrTempList);
+                displayData();
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(SpendingsListView.this, MainActivity.class);
+        startActivity(i);
+        finish();
     }
 }

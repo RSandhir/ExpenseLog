@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-
 public class pocketmoney extends AppCompatActivity {
 
     Button sav_btn;
@@ -26,10 +25,8 @@ public class pocketmoney extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("Prefs", Context.MODE_PRIVATE);
         int preTotal = sharedPreferences.getInt("PocketMoney", 0);
         if (preTotal > 0) {
-            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-            i.putExtra("Total", preTotal);
+            Intent i = new Intent(pocketmoney.this, MainActivity.class);
             startActivity(i);
-            finish();
         }
 
         setContentView(R.layout.activity_pocketmoney);
@@ -42,14 +39,16 @@ public class pocketmoney extends AppCompatActivity {
             public void onClick(View v) {
                 totalPmoney= Integer.parseInt(p_moneyet.getText().toString());
                 //Store SharedPref
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("PocketMoney", totalPmoney);
-                editor.commit();
-                Intent i=new Intent(getApplicationContext(),MainActivity.class);
-                i.putExtra("Total",totalPmoney);
+                writeTotal(totalPmoney);
+                Intent i = new Intent(pocketmoney.this, MainActivity.class);
                 startActivity(i);
-                finish();
             }
         });
+    }
+
+    private void writeTotal(int totalPmoney) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("PocketMoney", totalPmoney);
+        editor.commit();
     }
 }
