@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class pocketmoney extends AppCompatActivity {
 
@@ -37,11 +38,15 @@ public class pocketmoney extends AppCompatActivity {
         sav_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                totalPmoney= Integer.parseInt(p_moneyet.getText().toString());
-                //Store SharedPref
-                writeTotal(totalPmoney);
-                Intent i = new Intent(pocketmoney.this, MainActivity.class);
-                startActivity(i);
+                try {
+                    totalPmoney = Integer.parseInt(p_moneyet.getText().toString());
+                    //Store SharedPref
+                    writeTotal(totalPmoney);
+                    Intent i = new Intent(pocketmoney.this, MainActivity.class);
+                    startActivity(i);
+                } catch (IllegalArgumentException e) {
+                    Toast.makeText(pocketmoney.this, "Enter pocketmoney", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

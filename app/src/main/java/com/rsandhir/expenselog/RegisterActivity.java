@@ -1,9 +1,9 @@
 package com.rsandhir.expenselog;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -37,10 +37,14 @@ public class RegisterActivity extends AppCompatActivity {
         register_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email=email_et.getText().toString();
-                String password=password_et.getText().toString();
+                try {
+                    String email = email_et.getText().toString();
+                    String password = password_et.getText().toString();
 
-                register_user(email,password);
+                    register_user(email, password);
+                } catch (IllegalArgumentException e) {
+                    Toast.makeText(RegisterActivity.this, "Enter username and password", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
