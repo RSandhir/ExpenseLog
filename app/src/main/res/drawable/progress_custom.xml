@@ -27,7 +27,7 @@
                 android:tint="?attr/colorControlActivated">
                 <corners android:radius="8dp"/>
                 <size android:height="20dp" />
-                <solid android:color="#b9f6ca" />
+                <solid android:color="#b0a3ea" />
             </shape>
         </scale>
     </item>

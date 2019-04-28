@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,8 +29,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     FirebaseAuth mAuth;
-    FirebaseAuth.AuthStateListener authStateListener;
-
 
 
 
@@ -39,26 +38,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FloatingActionButton b1;
     int current_spnd;
     int totalPmoney;
+    TextView usr_email;
     String channelId = "notif_channel_id";
     SharedPreferences sharedPreferences;
     NavigationView navigationView;
-
-
 
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        drawerLayout=findViewById(R.id.drawer);
-        toggle=new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
+        drawerLayout = findViewById(R.id.drawer);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         //Auth
-        mAuth=FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = mAuth.getCurrentUser();
+
 
         sharedPreferences = getSharedPreferences("Prefs", Context.MODE_PRIVATE);
         totalPmoney = sharedPreferences.getInt("PocketMoney", 0);
@@ -74,7 +75,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         e1 = findViewById(R.id.e1);
         e2 = findViewById(R.id.e2);
         b1 = findViewById(R.id.b1);
-        navigationView=findViewById(R.id.navigationview);
+
+
+        navigationView = findViewById(R.id.navigationview);
+        if (user != null) {
+            View headerView = navigationView.getHeaderView(0);
+            usr_email = headerView.findViewById(R.id.usr_email);
+            usr_email.setText(user.getEmail());
+        }
+
+
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +116,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
     public void createNotificationChannel() {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         CharSequence channelName = "Some Channel";
@@ -120,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             notificationManager.createNotificationChannel(notificationChannel);
         }
     }
+
     public void createNotification(int progress) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         int notifyId = 1;
@@ -139,10 +149,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(toggle.onOptionsItemSelected(item)){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (toggle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -151,21 +160,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id=item.getItemId();
-        if(id==R.id.viewnotes){
+        int id = item.getItemId();
+        if (id == R.id.viewnotes) {
             Toast.makeText(this, "view", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(MainActivity.this, SpendingsListView.class);
             startActivity(intent);
         } else if (id == R.id.edit_pmoney) {
             Toast.makeText(this, "Enter new value", Toast.LENGTH_LONG).show();
+            writeTotal(0);
             Intent i = new Intent(MainActivity.this, pocketmoney.class);
             startActivity(i);
-        }
-        else if(id==R.id.share){
-            Toast.makeText(this,"share",Toast.LENGTH_LONG).show();
-        }
-        else if(id==R.id.logout){
-            Toast.makeText(this,"logout",Toast.LENGTH_LONG).show();
+        } else if (id == R.id.share) {
+            Toast.makeText(this, "share", Toast.LENGTH_LONG).show();
+        } else if (id == R.id.logout) {
+            Toast.makeText(this, "logout", Toast.LENGTH_LONG).show();
             FirebaseAuth.getInstance().signOut();
             sendToLogin();
         }
@@ -175,15 +183,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser firebaseUser=mAuth.getCurrentUser();
-        if(firebaseUser==null){
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        if (firebaseUser == null) {
             sendToLogin();
         }
     }
 
     private void sendToLogin() {
-        Intent loginIntent=new Intent(MainActivity.this, LoginActivity.class);
+        Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(loginIntent);
         finish();
+    }
+
+    private void writeTotal(int totalPmoney) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("PocketMoney", totalPmoney);
+        editor.commit();
     }
 }
