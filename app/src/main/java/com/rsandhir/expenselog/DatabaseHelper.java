@@ -5,18 +5,23 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String Database_Name = "FinanceDb.db";
     public static final String Table_Name = "Spendings";
     public static final String Col1="Description";
     public static final String Col2 = "Amount";
+    public static final String Col3 = "Date";
     public DatabaseHelper(Context context) {
         super(context,Database_Name, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql_cmd = "CREATE TABLE " + Table_Name + "(Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Description TEXT,Amount INTEGER)";
+        String sql_cmd = "CREATE TABLE " + Table_Name + "(Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Description TEXT,Amount INTEGER,Date TEXT)";
         sqLiteDatabase.execSQL(sql_cmd);
 
     }
@@ -29,9 +34,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean insertdata(String Description, int Amount) {
         SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        String formattedDate = df.format(c);
         ContentValues cv=new ContentValues();
         cv.put(Col1,Description);
         cv.put(Col2, Amount);
+        cv.put(Col3, formattedDate);
         long result =sqLiteDatabase.insert(Table_Name,null,cv);
         sqLiteDatabase.close();
         return result != -1;

@@ -19,13 +19,15 @@ public class CustomAdapter extends BaseAdapter implements RadioGroup.OnCheckedCh
     private ArrayList<String> Id = new ArrayList<String>();
     private ArrayList<String> Description = new ArrayList<String>();
     private ArrayList<String> Amount = new ArrayList<String>();
+    private ArrayList<String> Date = new ArrayList<String>();
     private ArrayList<Boolean> Arr_Checked;
 
-    public CustomAdapter(Context context, ArrayList<String> Id, ArrayList<String> Description, ArrayList<String> Amount, ArrayList<Boolean> Arr_Checked) {
+    public CustomAdapter(Context context, ArrayList<String> Id, ArrayList<String> Description, ArrayList<String> Amount, ArrayList<String> Date, ArrayList<Boolean> Arr_Checked) {
         this.mContext = context;
         this.Id = Id;
         this.Description = Description;
         this.Amount = Amount;
+        this.Date = Date;
         this.Arr_Checked = Arr_Checked;
     }
 
@@ -53,7 +55,7 @@ public class CustomAdapter extends BaseAdapter implements RadioGroup.OnCheckedCh
             layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.custom_layout, null);
             holder = new viewHolder();
-            holder.id = convertView.findViewById(R.id.tv_id);
+            holder.date = convertView.findViewById(R.id.tv_date);
             holder.Description = convertView.findViewById(R.id.tv_dis);
             holder.Amount = convertView.findViewById(R.id.tv_amt);
             holder.Arr_Checked = convertView.findViewById(R.id.cb1);
@@ -61,7 +63,7 @@ public class CustomAdapter extends BaseAdapter implements RadioGroup.OnCheckedCh
         } else {
             holder = (viewHolder) convertView.getTag();
         }
-        holder.id.setText(Id.get(position));
+        holder.date.setText(Date.get(position));
         holder.Description.setText(Description.get(position));
         holder.Amount.setText(Amount.get(position));
         holder.Arr_Checked.setId(position);
@@ -90,7 +92,7 @@ public class CustomAdapter extends BaseAdapter implements RadioGroup.OnCheckedCh
 
     public class viewHolder {
         CheckBox Arr_Checked;
-        TextView id;
+        TextView date;
         TextView Description;
         TextView Amount;
     }

@@ -21,6 +21,7 @@ public class SpendingsListView extends AppCompatActivity {
     private ArrayList<String> Id = new ArrayList<String>();
     private ArrayList<String> Description = new ArrayList<String>();
     private ArrayList<String> Amount = new ArrayList<String>();
+    ArrayList<String> date = new ArrayList<String>();
     ArrayList<Boolean> arrChecked;
     private String[] titlesArray;
 
@@ -42,11 +43,13 @@ public class SpendingsListView extends AppCompatActivity {
         Id.clear();
         Description.clear();
         Amount.clear();
+        date.clear();
         while (cursor.moveToNext()) {
             String fetch_id = cursor.getString(cursor.getColumnIndex("Id"));
             Id.add(fetch_id);
             Description.add(cursor.getString(cursor.getColumnIndex("Description")));
             Amount.add(cursor.getString(cursor.getColumnIndex("Amount")));
+            date.add(cursor.getString(cursor.getColumnIndex("Date")));
         }
         //Find total spendings
         int sum = 0;
@@ -61,7 +64,7 @@ public class SpendingsListView extends AppCompatActivity {
         for (int i = 0; i < Id.size(); i++) {
             arrChecked.add(false);
         }
-        CustomAdapter ca = new CustomAdapter(SpendingsListView.this, Id, Description, Amount, arrChecked);
+        CustomAdapter ca = new CustomAdapter(SpendingsListView.this, Id, Description, Amount, date, arrChecked);
         lv.setAdapter(ca);
         Log.d("CheckArr", "" + arrChecked);
         cursor.close();
