@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     FirebaseAuth mAuth;
+    float progress_percent;
 
 
 
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     spnd_amt = Integer.parseInt(e2.getText().toString());
                     discr = e1.getText().toString();
                     current_spnd += spnd_amt;
+                    writeCurrent(current_spnd);
                     float progress_percent = (((float) current_spnd) / totalPmoney) * 100;
                     progressBar.setProgress((int) progress_percent);
                     createNotification((int) progress_percent);
@@ -116,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+
     public void createNotificationChannel() {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         CharSequence channelName = "Some Channel";
@@ -124,23 +127,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.RED);
-            notificationChannel.enableVibration(true);
-            notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
             notificationManager.createNotificationChannel(notificationChannel);
         }
     }
 
-    public void createNotification(int progress) {
+    public void createNotification(float progress) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         int notifyId = 1;
-        this.current_spnd = progress;
+        this.progress_percent = progress;
         Notification notification = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             notification = new Notification.Builder(MainActivity.this, channelId)
                     .setContentTitle("Spendings")
                     .setContentText(progress + "%")
                     .setSmallIcon(R.drawable.ic_notification)
-                    .setProgress(totalPmoney, progress, false)
+                    .setProgress(100, (int) progress, false)
                     .setChannelId(channelId)
                     .setOngoing(true)
                     .build();
@@ -198,6 +199,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void writeTotal(int totalPmoney) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("PocketMoney", totalPmoney);
+        editor.commit();
+    }
+
+    private void writeCurrent(int current_spnd) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("curr_spend", current_spnd);
         editor.commit();
     }
 }
