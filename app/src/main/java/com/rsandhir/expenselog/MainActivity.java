@@ -171,8 +171,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             writeTotal(0);
             Intent i = new Intent(MainActivity.this, pocketmoney.class);
             startActivity(i);
-        } else if (id == R.id.share) {
-            Toast.makeText(this, "share", Toast.LENGTH_LONG).show();
         } else if (id == R.id.logout) {
             Toast.makeText(this, "logout", Toast.LENGTH_LONG).show();
             FirebaseAuth.getInstance().signOut();

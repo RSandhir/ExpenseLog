@@ -15,4 +15,8 @@
         <item name="android:progressDrawable">@drawable/progress_custom</item>
         <item name="android:minWidth">200dp</item>
     </style>
+
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorPrimary">@android:color/black</item>
+    </style>
 </resources>

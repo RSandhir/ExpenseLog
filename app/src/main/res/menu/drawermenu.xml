@@ -3,7 +3,10 @@
 
     <group android:checkableBehavior="single">
 
-    <item android:id="@+id/viewnotes" android:title="View Notes" android:icon="@drawable/ic_pageview_black_24dp"></item>
+        <item
+            android:id="@+id/viewnotes"
+            android:icon="@drawable/ic_pageview_black_24dp"
+            android:title="View Records"></item>
         <item
             android:id="@+id/edit_pmoney"
             android:icon="@drawable/ic_money_black_24dp"
@@ -11,7 +14,6 @@
     </group>
     <item android:id="@+id/i6" android:title="Communicate" android:icon="@drawable/ic_share_black_24dp">
     <menu>
-        <item android:id="@+id/share" android:title="Share" android:icon="@drawable/ic_share_black_24dp"></item>
         <item android:id="@+id/logout" android:title="Logout" android:icon="@drawable/ic_close_black_24dp"></item>
     </menu>
     </item>

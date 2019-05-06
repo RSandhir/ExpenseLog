@@ -6,5 +6,8 @@
         android:title="Delete Selected">
 
     </item>
+    <item
+        android:id="@+id/edit_record"
+        android:title="Edit" />
 
 </menu>

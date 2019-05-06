@@ -58,4 +58,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             sqLiteDatabase.execSQL(exec_sql);
         }
     }
+
+    public void editSelected(String s, String new_Amt) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        String exec_sql = "UPDATE " + Table_Name + " SET Amount= " + new_Amt + " WHERE Id=" + s;
+        sqLiteDatabase.execSQL(exec_sql);
+    }
 }

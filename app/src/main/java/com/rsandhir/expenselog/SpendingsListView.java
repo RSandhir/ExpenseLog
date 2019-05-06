@@ -1,15 +1,21 @@
 package com.rsandhir.expenselog;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -78,7 +84,7 @@ public class SpendingsListView extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.delete_selected:
-                String[] arrTempList = new String[arrChecked.size()];
+                final String[] arrTempList = new String[arrChecked.size()];
                 for (int i = 0; i < Id.size(); i++) {
                     if (arrChecked.get(i) == true) {
                         arrTempList[i] = Id.get(i);
@@ -86,6 +92,45 @@ public class SpendingsListView extends AppCompatActivity {
                 }
                 databaseHelper.deleteSelected(arrTempList);
                 displayData();
+                break;
+            case R.id.edit_record:
+                final String[] arrTempList1 = new String[arrChecked.size()];
+                for (int i = 0; i < Id.size(); i++) {
+                    if (arrChecked.get(i) == true) {
+                        arrTempList1[i] = Id.get(i);
+                    }
+                }
+                if (arrTempList1.length == 1) {
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+                    View dialogView = inflater.inflate(R.layout.edit_alert, null);
+                    final EditText editText = dialogView.findViewById(R.id.newamt);
+                    dialogBuilder.setView(dialogView)
+                            .setPositiveButton("Update",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            String newAmt;
+
+                                            newAmt = editText.getText().toString();
+                                            Log.d("lolu", "" + newAmt + " " + arrTempList1[0]);
+                                            databaseHelper.editSelected(arrTempList1[0], newAmt);
+                                            displayData();
+                                        }
+                                    })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+
+
+                    AlertDialog alertDialog = dialogBuilder.create();
+                    alertDialog.show();
+                } else
+                    Toast.makeText(getApplicationContext(), "Select the entry you want to edit!", Toast.LENGTH_SHORT).show();
+                break;
         }
         return true;
     }
