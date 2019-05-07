@@ -100,7 +100,8 @@ public class SpendingsListView extends AppCompatActivity {
                         arrTempList1[i] = Id.get(i);
                     }
                 }
-                if (arrTempList1.length == 1) {
+                Log.d("multiSelect", "" + arrTempList1.length + " " + arrTempList1[0] + " " + arrTempList1[1]);
+                if (arrTempList1.length == 1 || (arrTempList1.length == 2 && (arrTempList1[0] == null || arrTempList1[1] == null))) {
                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
                     LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
                     View dialogView = inflater.inflate(R.layout.edit_alert, null);
